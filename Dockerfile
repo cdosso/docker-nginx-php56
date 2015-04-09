@@ -43,6 +43,10 @@ RUN sed -i "s/;cgi.fix_pathinfo=1/cgi.fix_pathinfo=0/" /etc/php5/fpm/php.ini
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
 
+RUN mkdir -p /etc/nginx/ssl
+ADD scripts/certgen.sh /usr/local/bin/certgen.sh
+RUN /usr/local/bin/certgen.sh dev_ssl
+RUN cp dev_ssl.* /etc/nginx/ssl/
  
 RUN mkdir -p        /var/www
 ADD config/nginx.conf   /etc/nginx/sites-available/default
